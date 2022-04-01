@@ -1,6 +1,12 @@
-# Re-Identification task for the VIPriors Challenge
+# The DeepSportRadar Player Re-Identification Challenge
 
-Mantainer: Davide Zambrano from Synergy Sports (d.zambrano@sportradar.com)
+Welcome to the DeepSportRadar Player Re-Identification Challenge.
+In this challenge, participants will have to re-identify basketball players across multiple video frames captured at various time instants.
+For that purpose, we provide our Synergy Re-Identification dataset with images crops of players, referees and coaches.
+The dataset is split into a training, test and challenge set. 
+Test and challenge sets are both split into queries and galleries, similar to traditional ReID datasets.
+
+Maintainer: Vladimir Somers (v.somers@sportradar.com) from Synergy Sports, which is a division of Sportradar.
 
 **NOTE this code is based on Open-reid repo: https://github.com/Cysu/open-reid.git"**
 
@@ -11,7 +17,7 @@ state-of-the-art results._
 
 We want to thank the authors for providing this tool. This version applies some changes to the original code to specifically adapt it to the VIPrior Challenge on Person Re-Identification. 
 
-We present the "Visual Inductive Priors for Data-Efficient Computer Vision" challenge. This year, we offer five challenges, where models are to be trained from scratch in a data-deficient setting.
+This challenge is a fork of the [player re-identification challenge](https://github.com/VIPriors/vipriors-challenges-toolkit/tree/master/re-identification) proposed in the [2nd VIPriors workshop challenges](https://vipriors.github.io/challenges/)
 
 ## Installation
 
@@ -20,18 +26,17 @@ We present the "Visual Inductive Priors for Data-Efficient Computer Vision" chal
 Install [PyTorch](http://pytorch.org/). 
 
 ```shell
-git clone https://github.com/VIPriors/vipriors-challenges-toolkit
-cd vipriors-challenges-toolkit/re-identification
+git clone https://github.com/DeepSportRadar/player-reidentification-challenge.git
+cd player-reidentification-challenge
 pip install -e .
 ```
 
-## Examples
+## Example
 
+Run the following command to train a baseline model:
 ```shell
 python baseline/synergyreid_baseline.py -b 64 -j 2 -a resnet50 --logs-dir logs/synergy-reid/
 ```
-
-This is just a quick example.
 
 ## Data
 
@@ -66,5 +71,5 @@ The identities of the gallery are NOT provided; gallery ids are just random.
 
 ## Submission
 
-You need to submit a .csv file as the pairwise distance matrix of size (m+1) x (n+1), where m is the number of querie images and n is the number of gallery images. The first row and the first column are the query and gallery ids respectively.
-Query ids have to be orderd. Please check the example provided by the dataset loader in the baseline ```baseline/synergyreid_baseline.py```.
+You need to submit a _.csv_ file as the pairwise distance matrix of size (m+1) x (n+1), where m is the number of query images and n is the number of gallery images. The first row and the first column are the query and gallery ids respectively.
+Query ids have to be ordered. Please check the example provided by the dataset loader in the baseline ```baseline/synergyreid_baseline.py```.
