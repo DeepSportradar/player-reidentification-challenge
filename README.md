@@ -1,3 +1,6 @@
+# CHALLENGE START OFFICIALLY APRIL 6th. Stayed tuned.
+
+
 # The DeepSportRadar Player Re-Identification Challenge
 
 Welcome to the DeepSportRadar Player Re-Identification Challenge.
