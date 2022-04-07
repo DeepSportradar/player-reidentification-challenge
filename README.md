@@ -8,7 +8,7 @@ An opportunity to publish, as well as a $1000,00 prize by competing on [EvalAI](
 See [this page](http://mmsports.multimedia-computing.de/mmsports2022/challenge.html) for more details.
 In this challenge, participants will have to re-identify basketball players across multiple video frames captured from the same camera viewpoint at various time instants.
 For that purpose, we provide our Synergy Re-Identification dataset with image crops of players, referees and coaches.
-The dataset is split into a training, validation and test set (= challenge set). 
+The dataset is split into a training, test and challenge set (= challenge set). 
 Test and challenge sets are both split into queries and galleries, similar to traditional ReID datasets.
 
 Maintainer: Vladimir Somers (v.somers@sportradar.com) from Synergy Sports, a division of Sportradar.
@@ -48,13 +48,13 @@ python baseline/synergyreid_baseline.py -b 64 -j 2 -a resnet50 --logs-dir logs/s
 
 Person re-identification data are provided by [Synergy Sports](ttps://synergysports.com). 
 Data come from short sequences of basketball games, each sequence is composed by 20 frames. 
-For the validation and test sets, the query images are persons taken at the first frame, while the gallery images are identities taken from the 2nd to the last frame.
+For the test and challenge sets, the query images are persons taken at the first frame, while the gallery images are identities taken from the 2nd to the last frame.
 
 The idea behind the baseline is to provide a quick introduction to how to handle the re-id data. 
 Specifically, attention should be put on the dataset creation and the dataloaders.
 The data files are provided under ```baseline/data/synergyreid/raw/synergyreid_data.zip```.
 
-The baseline code extracts the raw files in the same directory and prepares the splits to use for training, validation and test.
+The baseline code extracts the raw files in the same directory and prepares the splits to use for training, test and challenge.
 
 Specifically the dataset is divided as:
 
@@ -63,19 +63,19 @@ SynergyReID dataset loaded
   subset      | # ids | # images
   ---------------------------
   train       |   436 |     8569
-  query val   |    50 |       50
-  gallery val |    50 |      910
-  trainval    |   486 |     9529
+  query test   |    50 |       50
+  gallery test |    50 |      910
+  traintest    |   486 |     9529
   ---------------------------
-  query test  |   468 |      468
-  gallery test |  8703 |     8703
+  query challenge  |   468 |      468
+  gallery challenge |  8703 |     8703
 ```
 
-Train and validation identities can be merged (to improve performance) using the flag ```--combine-trainval```.
+Train and test identities can be merged (to improve performance) using the flag ```--combine-traintest```.
 
 The image filename is divided in three numbers: the first one is the person-id; the second one is the sequence where the image was taken; and the third one is the frame number.
 
-The validation-set is divided in query and gallery to match the test-set format. With the flag ```--evaluate``` the distance matrix for the validation set is also saved.
+The test-set is divided in query and gallery to match the challenge-set format. With the flag ```--evaluate``` the distance matrix for the test set is also saved.
 The identities of the gallery are NOT provided; gallery ids are just random.
 
 ## Submission on EvalAI

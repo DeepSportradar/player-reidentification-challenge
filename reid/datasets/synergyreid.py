@@ -9,7 +9,7 @@ from ..utils.data.dataset import _pluck
 
 
 class SynergyReID(Dataset):
-    md5 = '05050b5d9388563021315a81b531db7d'
+    md5 = '05715857791e2e88b2f11e4037fbec7d'
 
     def __init__(self, root, split_id=0, num_val=100, download=True):
         super(SynergyReID, self).__init__(root, split_id=split_id)
@@ -75,16 +75,16 @@ class SynergyReID(Dataset):
                 shutil.copy(fpath, osp.join(images_dir, fname))
             return pids
 
-        trainval_pids = register('reid_training')
-        query_val_pids = register('reid_val/query')
-        gallery_val_pids = register('reid_val/gallery')
+        traintest_pids = register('reid_training')
+        query_test_pids = register('reid_test/query')
+        gallery_test_pids = register('reid_test/gallery')
 
-        assert query_val_pids <= gallery_val_pids
-        assert trainval_pids.isdisjoint(query_val_pids)
+        assert query_test_pids <= gallery_test_pids
+        assert traintest_pids.isdisjoint(query_test_pids)
 
-        identities_test = [[[] for _ in range(2)] for _ in range(9172)]
+        identities_challenge = [[[] for _ in range(2)] for _ in range(9172)]
 
-        def register_test(subdir, n=0):
+        def register_challenge(subdir, n=0):
             fpaths = sorted(glob(osp.join(exdir, subdir, '*.jpeg')))
             pids = set()
             for pindx, fpath in enumerate(fpaths):
@@ -94,25 +94,25 @@ class SynergyReID(Dataset):
                 pids.add(pid)
                 fname = ('{:08d}_{:02d}_{:04d}.jpg'
                          .format(pid, cam, 0))
-                identities_test[pindx+n][cam].append(fname)
+                identities_challenge[pindx+n][cam].append(fname)
                 shutil.copy(fpath, osp.join(images_dir, fname))
             return pids
-        query_test_pids = register_test('reid_test/query')
-        gallery_test_pids = register_test('reid_test/gallery',
-                                          n=len(query_test_pids))
+        query_challenge_pids = register_challenge('reid_challenge/query')
+        gallery_challenge_pids = register_challenge('reid_challenge/gallery',
+                                          n=len(query_challenge_pids))
 
-        # Save the training / val / test splits
+        # Save the training / test / challenge splits
         splits = [{
-            'trainval': sorted(list(trainval_pids)),
-            'query_val': sorted(list(query_val_pids)),
-            'gallery_val': sorted(list(gallery_val_pids)),
+            'traintest': sorted(list(traintest_pids)),
             'query_test': sorted(list(query_test_pids)),
-            'gallery_test': sorted(list(gallery_test_pids))}]
+            'gallery_test': sorted(list(gallery_test_pids)),
+            'query_challenge': sorted(list(query_challenge_pids)),
+            'gallery_challenge': sorted(list(gallery_challenge_pids))}]
         write_json(splits, osp.join(self.root, 'splits.json'))
 
         # Save meta information into a json file
         meta = {'name': 'SynergyReID', 'shot': 'multiple', 'num_cameras': 2,
-                'identities': identities, 'identities_test': identities_test}
+                'identities': identities, 'identities_challenge': identities_challenge}
         write_json(meta, osp.join(self.root, 'meta.json'))
 
     def load(self, verbose=True):
@@ -122,10 +122,10 @@ class SynergyReID(Dataset):
                              .format(len(splits)))
         self.split = splits[self.split_id]
 
-        trainval_pids = np.concatenate((np.asarray(self.split['trainval']),
-                                       np.asarray(self.split['query_val'])))
+        traintest_pids = np.concatenate((np.asarray(self.split['traintest']),
+                                       np.asarray(self.split['query_test'])))
 
-        def _pluck_val(identities, indices, relabel=False, cam=0):
+        def _pluck_test(identities, indices, relabel=False, cam=0):
             ret = []
             for index, pid in enumerate(indices):
                 pid_images = identities[pid]
@@ -141,7 +141,7 @@ class SynergyReID(Dataset):
                                 ret.append((fname, pid, camid))
             return ret
 
-        def _pluck_test(identities, indices, n=0):
+        def _pluck_challenge(identities, indices, n=0):
             ret = []
             for index, pid in enumerate(indices):
                 pid_images = identities[index+n]
@@ -152,16 +152,16 @@ class SynergyReID(Dataset):
 
         self.meta = read_json(osp.join(self.root, 'meta.json'))
         identities = self.meta['identities']
-        identities_test = self.meta['identities_test']
-        self.train = _pluck(identities, self.split['trainval'], relabel=True)
-        self.trainval = _pluck(identities, trainval_pids, relabel=True)
-        self.query_val = _pluck_val(identities, self.split['query_val'], cam=0)
-        self.gallery_val = _pluck_val(identities, self.split['gallery_val'], cam=1)
-        self.query_test = _pluck_test(identities_test, self.split['query_test'])
-        self.gallery_test = _pluck_test(identities_test, self.split['gallery_test'], n=len(self.split['query_test']))
-        self.num_train_ids = len(self.split['trainval'])
-        self.num_val_ids = len(self.split['query_val'])
-        self.num_trainval_ids = len(trainval_pids)
+        identities_challenge = self.meta['identities_challenge']
+        self.train = _pluck(identities, self.split['traintest'], relabel=True)
+        self.traintest = _pluck(identities, traintest_pids, relabel=True)
+        self.query_test = _pluck_test(identities, self.split['query_test'], cam=0)
+        self.gallery_test = _pluck_test(identities, self.split['gallery_test'], cam=1)
+        self.query_challenge = _pluck_challenge(identities_challenge, self.split['query_challenge'])
+        self.gallery_challenge = _pluck_challenge(identities_challenge, self.split['gallery_challenge'], n=len(self.split['query_challenge']))
+        self.num_train_ids = len(self.split['traintest'])
+        self.num_test_ids = len(self.split['query_test'])
+        self.num_traintest_ids = len(traintest_pids)
 
         if verbose:
             print(self.__class__.__name__, "dataset loaded")
@@ -169,14 +169,14 @@ class SynergyReID(Dataset):
             print("  ---------------------------")
             print("  train       | {:5d} | {:8d}"
                   .format(self.num_train_ids, len(self.train)))
-            print("  query val   | {:5d} | {:8d}"
-                  .format(len(self.split['query_val']), len(self.query_val)))
-            print("  gallery val | {:5d} | {:8d}"
-                  .format(len(self.split['gallery_val']), len(self.gallery_val)))
-            print("  trainval    | {:5d} | {:8d}"
-                  .format(self.num_trainval_ids, len(self.trainval)))
-            print("  ---------------------------")
-            print("  query test  | {:5d} | {:8d}"
+            print("  query test   | {:5d} | {:8d}"
                   .format(len(self.split['query_test']), len(self.query_test)))
             print("  gallery test | {:5d} | {:8d}"
                   .format(len(self.split['gallery_test']), len(self.gallery_test)))
+            print("  traintest    | {:5d} | {:8d}"
+                  .format(self.num_traintest_ids, len(self.traintest)))
+            print("  ---------------------------")
+            print("  query challenge  | {:5d} | {:8d}"
+                  .format(len(self.split['query_challenge']), len(self.query_challenge)))
+            print("  gallery challenge | {:5d} | {:8d}"
+                  .format(len(self.split['gallery_challenge']), len(self.gallery_challenge)))

@@ -21,7 +21,7 @@ from reid.utils.serialization import load_checkpoint, save_checkpoint, write_mat
 
 
 def get_data(name, split_id, data_dir, height, width, batch_size, workers,
-             combine_trainval):
+             combine_traintest):
     root = osp.join(data_dir, name)
 
     dataset = datasets.create(name, root, split_id=split_id)
@@ -29,8 +29,8 @@ def get_data(name, split_id, data_dir, height, width, batch_size, workers,
     normalizer = T.Normalize(mean=[0.485, 0.456, 0.406],
                              std=[0.229, 0.224, 0.225])
 
-    train_set = dataset.trainval if combine_trainval else dataset.train
-    num_classes = (dataset.num_trainval_ids if combine_trainval
+    train_set = dataset.traintest if combine_traintest else dataset.train
+    num_classes = (dataset.num_traintest_ids if combine_traintest
                    else dataset.num_train_ids)
 
     train_transformer = T.Compose([
@@ -52,20 +52,20 @@ def get_data(name, split_id, data_dir, height, width, batch_size, workers,
         batch_size=batch_size, num_workers=workers,
         shuffle=True, pin_memory=True, drop_last=True)
 
-    val_loader = DataLoader(
-        Preprocessor(list(set(dataset.query_val) | set(dataset.gallery_val)),
+    test_loader = DataLoader(
+        Preprocessor(list(set(dataset.query_test) | set(dataset.gallery_test)),
                      root=dataset.images_dir,
                      transform=test_transformer),
         batch_size=batch_size, num_workers=workers,
         shuffle=False, pin_memory=True)
 
-    test_loader = DataLoader(
-        Preprocessor(list(set(dataset.query_test) | set(dataset.gallery_test)),
+    challenge_loader = DataLoader(
+        Preprocessor(list(set(dataset.query_challenge) | set(dataset.gallery_challenge)),
                      root=dataset.images_dir, transform=test_transformer),
         batch_size=batch_size, num_workers=workers,
         shuffle=False, pin_memory=True)
 
-    return dataset, num_classes, train_loader, val_loader, test_loader
+    return dataset, num_classes, train_loader, test_loader, challenge_loader
 
 
 def main(args):
@@ -80,10 +80,10 @@ def main(args):
     # Create data loaders
     if args.height is None or args.width is None:
         args.height, args.width = (256, 128)
-    dataset, num_classes, train_loader, val_loader, test_loader = \
+    dataset, num_classes, train_loader, test_loader, challenge_loader = \
         get_data(args.dataset, args.split, args.data_dir, args.height,
                  args.width, args.batch_size, args.workers,
-                 args.combine_trainval)
+                 args.combine_traintest)
 
     # Create model
     model = models.create(args.arch, num_features=args.features,
@@ -108,19 +108,19 @@ def main(args):
     if args.evaluate:
         metric.train(model, train_loader)
         print("Validation:")
-        dist_matrix = evaluator.evaluate(val_loader, dataset.query_val,
-                                         dataset.gallery_val, metric)
-        top1 = evaluator.compute_score(dist_matrix,
-                                       dataset.query_val,
-                                       dataset.gallery_val)
-        write_mat_csv(osp.join(args.logs_dir, 'distance_matrix_val.csv'),
-                      dist_matrix, dataset.query_val, dataset.gallery_val)
-        print("Validation Top1 : {}".format(top1))
-        print("Test:")
         dist_matrix = evaluator.evaluate(test_loader, dataset.query_test,
                                          dataset.gallery_test, metric)
-        write_mat_csv(osp.join(args.logs_dir, 'distance_matrix.csv'),
+        top1 = evaluator.compute_score(dist_matrix,
+                                       dataset.query_test,
+                                       dataset.gallery_test)
+        write_mat_csv(osp.join(args.logs_dir, 'distance_matrix_test.csv'),
                       dist_matrix, dataset.query_test, dataset.gallery_test)
+        print("Validation Top1 : {}".format(top1))
+        print("Test:")
+        dist_matrix = evaluator.evaluate(challenge_loader, dataset.query_challenge,
+                                         dataset.gallery_challenge, metric)
+        write_mat_csv(osp.join(args.logs_dir, 'distance_matrix.csv'),
+                      dist_matrix, dataset.query_challenge, dataset.gallery_challenge)
         return
 
     # Criterion
@@ -157,12 +157,12 @@ def main(args):
         trainer.train(epoch, train_loader, optimizer)
         if epoch < args.start_save:
             continue
-        dist_matrix = evaluator.evaluate(val_loader,
-                                         dataset.query_val,
-                                         dataset.gallery_val)
+        dist_matrix = evaluator.evaluate(test_loader,
+                                         dataset.query_test,
+                                         dataset.gallery_test)
         top1 = evaluator.compute_score(dist_matrix,
-                                       dataset.query_val,
-                                       dataset.gallery_val)
+                                       dataset.query_test,
+                                       dataset.gallery_test)
         is_best = top1 > best_top1
         best_top1 = max(top1, best_top1)
         save_checkpoint({
@@ -179,12 +179,12 @@ def main(args):
     checkpoint = load_checkpoint(osp.join(args.logs_dir, 'model_best.pth.tar'))
     model.module.load_state_dict(checkpoint['state_dict'])
     metric.train(model, train_loader)
-    dist_matrix = evaluator.evaluate(test_loader,
-                                     dataset.query_test,
-                                     dataset.gallery_test,
+    dist_matrix = evaluator.evaluate(challenge_loader,
+                                     dataset.query_challenge,
+                                     dataset.gallery_challenge,
                                      metric)
     write_mat_csv(osp.join(args.logs_dir, 'distance_matrix.csv'),
-                  dist_matrix, dataset.query_test, dataset.gallery_test)
+                  dist_matrix, dataset.query_challenge, dataset.gallery_challenge)
 
 
 if __name__ == '__main__':
@@ -199,9 +199,9 @@ if __name__ == '__main__':
                         help="input height, default: 256 for resnet*")
     parser.add_argument('--width', type=int,
                         help="input width, default: 128 for resnet*")
-    parser.add_argument('--combine-trainval', action='store_true',
-                        help="train and val sets together for training, "
-                             "val set alone for validation")
+    parser.add_argument('--combine-traintest', action='store_true',
+                        help="train and test sets together for training, "
+                             "test set alone for validation")
     # model
     parser.add_argument('-a', '--arch', type=str, default='resnet50',
                         choices=models.names())
