@@ -107,19 +107,19 @@ def main(args):
     evaluator = Evaluator(model)
     if args.evaluate:
         metric.train(model, train_loader)
-        print("Validation:")
+        print("Test set:")
         dist_matrix = evaluator.evaluate(test_loader, dataset.query_test,
                                          dataset.gallery_test, metric)
         top1 = evaluator.compute_score(dist_matrix,
                                        dataset.query_test,
                                        dataset.gallery_test)
-        write_mat_csv(osp.join(args.logs_dir, 'distance_matrix_test.csv'),
+        write_mat_csv(osp.join(args.logs_dir, 'test_distance_matrix.csv'),
                       dist_matrix, dataset.query_test, dataset.gallery_test)
-        print("Validation Top1 : {}".format(top1))
-        print("Test:")
+        print("Test set Top1 : {}".format(top1))
+        print("Challenge:")
         dist_matrix = evaluator.evaluate(challenge_loader, dataset.query_challenge,
                                          dataset.gallery_challenge, metric)
-        write_mat_csv(osp.join(args.logs_dir, 'distance_matrix.csv'),
+        write_mat_csv(osp.join(args.logs_dir, 'challenge_distance_matrix.csv'),
                       dist_matrix, dataset.query_challenge, dataset.gallery_challenge)
         return
 
@@ -183,7 +183,7 @@ def main(args):
                                      dataset.query_challenge,
                                      dataset.gallery_challenge,
                                      metric)
-    write_mat_csv(osp.join(args.logs_dir, 'distance_matrix.csv'),
+    write_mat_csv(osp.join(args.logs_dir, 'challenge_distance_matrix.csv'),
                   dist_matrix, dataset.query_challenge, dataset.gallery_challenge)
 
 
