@@ -1,6 +1,3 @@
-# CHALLENGE START OFFICIALLY APRIL 6th. Stayed tuned.
-
-
 # The DeepSportRadar Player Re-Identification Challenge
 
 Welcome to the DeepSportRadar Player Re-Identification Challenge, which is one of the [ACM MMSports 2022 Workshop](http://mmsports.multimedia-computing.de/mmsports2022/index.html) challenges. 
@@ -79,7 +76,7 @@ The test-set is divided in query and gallery to match the challenge-set format. 
 The identities of the gallery are NOT provided; gallery ids are just random.
 
 ## Submission on EvalAI
-
+Submit your result through the [challenge page on the EvalAI platform](https://eval.ai/web/challenges/challenge-page/1689/overview).
 You need to submit a _.csv_ file as the pairwise distance matrix of size (m+1) x (n+1), where m is the number of query images and n is the number of gallery images. 
 The first row and the first column are the query and gallery ids respectively.
 Query ids have to be ordered. 
