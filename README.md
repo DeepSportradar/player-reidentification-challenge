@@ -6,7 +6,7 @@
 # The DeepSportRadar Player Re-Identification Challenge
 
 Welcome to the DeepSportRadar Player Re-Identification Challenge, which is one of the [ACM MMSports 2022 Workshop](http://mmsports.multimedia-computing.de/mmsports2022/index.html) challenges. 
-An opportunity to publish, as well as a $1000,00 prize by competing on [EvalAI](https://eval.ai/web/challenges/challenge-page/1685/overview). 
+An opportunity to publish, as well as a $1000 prize by competing on [EvalAI](https://eval.ai/web/challenges/challenge-page/1685/overview). 
 See [this page](http://mmsports.multimedia-computing.de/mmsports2022/challenge.html) for more details.
 In this challenge, participants will have to re-identify basketball players across multiple video frames captured from the same camera viewpoint at various time instants.
 For that purpose, we provide our Synergy Re-Identification dataset with image crops of players, referees and coaches.
