@@ -1,3 +1,8 @@
+[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/JvMQgMkpkm)
+[![Compete on EvalAI](https://badgen.net/badge/compete%20on/EvalAI/blue)](https://eval.ai/web/challenges/challenge-page/1685/overview)
+[![Win $1,000.00](https://badgen.net/badge/win/%241%2C000.00/yellow)](http://mmsports.multimedia-computing.de/mmsports2022/challenge.html)
+[![Kaggle Dataset](https://badgen.net/badge/kaggle/dataset/blue)](https://www.kaggle.com/datasets/deepsportradar/basketball-instants-dataset)
+
 # The DeepSportRadar Player Re-Identification Challenge
 
 Welcome to the DeepSportRadar Player Re-Identification Challenge, which is one of the [ACM MMSports 2022 Workshop](http://mmsports.multimedia-computing.de/mmsports2022/index.html) challenges. 
@@ -7,6 +12,8 @@ In this challenge, participants will have to re-identify basketball players acro
 For that purpose, we provide our Synergy Re-Identification dataset with image crops of players, referees and coaches.
 The dataset is split into a training, test and challenge set (= challenge set). 
 Test and challenge sets are both split into queries and galleries, similar to traditional ReID datasets.
+The testing-set should be used to evaluate your model, both on the public EvalAI leaderboard that provides the temporary ranking, and when communicating about your method.
+The challenge-set will be used for the official challenge ranking.
 
 Maintainer: Vladimir Somers (v.somers@sportradar.com) from Synergy Sports, a division of Sportradar.
 Author of this repository: Davide Zambrano from Synergy Sports (d.zambrano@sportradar.com).
