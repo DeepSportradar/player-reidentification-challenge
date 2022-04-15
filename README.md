@@ -28,6 +28,9 @@ We want to thank the authors for providing this tool. This version applies some 
 
 This challenge is a fork of the [player re-identification challenge](https://github.com/VIPriors/vipriors-challenges-toolkit/tree/master/re-identification) proposed in the [2nd VIPriors workshop challenges](https://vipriors.github.io/challenges/)
 
+&nbsp;
+<p align="center"><img src="assets/banner.png" width="740"></p>
+
 ## Installation
 
 **Note that the file ```setup.py``` specifies the libraries version to use to run the code.**
