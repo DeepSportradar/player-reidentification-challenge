@@ -24,7 +24,7 @@ purpose. It aims to provide a uniform interface for different datasets, a full
 set of models and evaluation metrics, as well as examples to reproduce (near)
 state-of-the-art results._
 
-We want to thank the authors for providing this tool. This version applies some changes to the original code to specifically adapt it to the VIPrior Challenge on Person Re-Identification. 
+We want to thank the authors for providing this tool. This version applies some changes to the original code to specifically adapt it to the DeepSportradar Challenge on Person Re-Identification. 
 
 This challenge is a fork of the [player re-identification challenge](https://github.com/VIPriors/vipriors-challenges-toolkit/tree/master/re-identification) proposed in the [2nd VIPriors workshop challenges](https://vipriors.github.io/challenges/)
 
