@@ -9,7 +9,7 @@ An opportunity to publish, as well as a $1000 prize by competing on [EvalAI](htt
 See [this page](http://mmsports.multimedia-computing.de/mmsports2022/challenge.html) for more details.
 In this challenge, participants will have to re-identify basketball players across multiple video frames captured from the same camera viewpoint at various time instants.
 For that purpose, we provide our Synergy Re-Identification dataset with image crops of players, referees and coaches.
-The dataset is split into a training, test and challenge set (= challenge set). 
+The dataset is split into a training, test and challenge set. 
 Test and challenge sets are both split into queries and galleries, similar to traditional ReID datasets.
 The testing-set should be used to evaluate your model, both on the public EvalAI leaderboard that provides the temporary ranking, and when communicating about your method.
 The challenge-set will be used for the official challenge ranking.
