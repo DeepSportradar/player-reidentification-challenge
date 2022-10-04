@@ -4,7 +4,7 @@
 
 # The DeepSportRadar Player Re-Identification Challenge
 
-## ** The DeepSportRadar Challenges will come back next year with some improvements, stay tuned on our [Discord channel](https://discord.gg/JvMQgMkpkm)! **
+## ** The DeepSportRadar Challenges will come back next year (2023) with some improvements, stay tuned on our [Discord channel](https://discord.gg/JvMQgMkpkm)! **
 
 
 Welcome to the DeepSportRadar Player Re-Identification Challenge, which is one of the [ACM MMSports 2022 Workshop](http://mmsports.multimedia-computing.de/mmsports2022/index.html) challenges. 
