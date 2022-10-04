@@ -4,6 +4,9 @@
 
 # The DeepSportRadar Player Re-Identification Challenge
 
+## ** The DeepSportRadar Challenges will come back next year with some improvements, stay tuned on our [Discord channel](https://discord.gg/JvMQgMkpkm)! **
+
+
 Welcome to the DeepSportRadar Player Re-Identification Challenge, which is one of the [ACM MMSports 2022 Workshop](http://mmsports.multimedia-computing.de/mmsports2022/index.html) challenges. 
 An opportunity to publish, as well as a $1000 prize by competing on [EvalAI](https://eval.ai/web/challenges/challenge-page/1685/overview). 
 See [this page](http://mmsports.multimedia-computing.de/mmsports2022/challenge.html) for more details.
