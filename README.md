@@ -14,7 +14,7 @@ Test and challenge sets are both split into queries and galleries, similar to tr
 The testing-set should be used to evaluate your model, both on the public EvalAI leaderboard that provides the temporary ranking, and when communicating about your method.
 The challenge-set will be used for the official challenge ranking.
 
-If you use any DeepSportradar dataset in your research or wish to refer to the baseline results and discussion published [our paper](https://arxiv.org/abs/2208.08190), please use the following BibTeX entry:
+If you use any DeepSportradar dataset in your research or wish to refer to the baseline results and discussion published in [our paper](https://arxiv.org/abs/2208.08190), please use the following BibTeX entry:
 
     @inproceedings{
     Van_Zandycke_2022,
