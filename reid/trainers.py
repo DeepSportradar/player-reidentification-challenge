@@ -1,4 +1,5 @@
-from __future__ import print_function, absolute_import
+from __future__ import absolute_import, print_function
+
 import time
 
 import torch
@@ -10,10 +11,11 @@ from .utils.meters import AverageMeter
 
 
 class BaseTrainer(object):
-    def __init__(self, model, criterion):
+    def __init__(self, model, criterion, device):
         super(BaseTrainer, self).__init__()
         self.model = model
         self.criterion = criterion
+        self.device = device
 
     def train(self, epoch, data_loader, optimizer, print_freq=1):
         self.model.train()
@@ -41,16 +43,25 @@ class BaseTrainer(object):
             end = time.time()
 
             if (i + 1) % print_freq == 0:
-                print('Epoch: [{}][{}/{}]\t'
-                      'Time {:.3f} ({:.3f})\t'
-                      'Data {:.3f} ({:.3f})\t'
-                      'Loss {:.3f} ({:.3f})\t'
-                      'Prec {:.2%} ({:.2%})\t'
-                      .format(epoch, i + 1, len(data_loader),
-                              batch_time.val, batch_time.avg,
-                              data_time.val, data_time.avg,
-                              losses.val, losses.avg,
-                              precisions.val, precisions.avg))
+                print(
+                    "Epoch: [{}][{}/{}]\t"
+                    "Time {:.3f} ({:.3f})\t"
+                    "Data {:.3f} ({:.3f})\t"
+                    "Loss {:.3f} ({:.3f})\t"
+                    "Prec {:.2%} ({:.2%})\t".format(
+                        epoch,
+                        i + 1,
+                        len(data_loader),
+                        batch_time.val,
+                        batch_time.avg,
+                        data_time.val,
+                        data_time.avg,
+                        losses.val,
+                        losses.avg,
+                        precisions.val,
+                        precisions.avg,
+                    )
+                )
 
     def _parse_data(self, inputs):
         raise NotImplementedError
@@ -63,18 +74,18 @@ class Trainer(BaseTrainer):
     def _parse_data(self, inputs):
         imgs, _, pids, _ = inputs
         inputs = [Variable(imgs)]
-        targets = Variable(pids.cuda())
+        targets = Variable(pids.to(self.device))
         return inputs, targets
 
     def _forward(self, inputs, targets):
         outputs = self.model(*inputs)
         if isinstance(self.criterion, torch.nn.CrossEntropyLoss):
             loss = self.criterion(outputs, targets)
-            prec, = accuracy(outputs.data, targets.data)
+            (prec,) = accuracy(outputs.data, targets.data)
             prec = prec[0]
         elif isinstance(self.criterion, OIMLoss):
             loss, outputs = self.criterion(outputs, targets)
-            prec, = accuracy(outputs.data, targets.data)
+            (prec,) = accuracy(outputs.data, targets.data)
             prec = prec[0]
         elif isinstance(self.criterion, TripletLoss):
             loss, prec = self.criterion(outputs, targets)
