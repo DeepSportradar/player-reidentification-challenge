@@ -73,7 +73,7 @@ class BaseTrainer(object):
 class Trainer(BaseTrainer):
     def _parse_data(self, inputs):
         imgs, _, pids, _ = inputs
-        inputs = [Variable(imgs)]
+        inputs = [Variable(imgs).to(self.device)]
         targets = Variable(pids.to(self.device))
         return inputs, targets
 
