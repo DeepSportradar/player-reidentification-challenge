@@ -56,7 +56,7 @@ This challenge started as a fork of the [player re-identification challenge](htt
 Install [PyTorch](http://pytorch.org/). 
 
 ```shell
-git clone https://github.com/DeepSportRadar/player-reidentification-challenge.git
+git clone https://github.com/DeepSportradar/player-reidentification-challenge.git
 cd player-reidentification-challenge
 pip install -e .
 ```
