@@ -2,8 +2,8 @@ from setuptools import find_packages, setup
 
 setup(
     name="deepsportradar-player-reidentification",
-    version="1.0.0",
-    description="Deep Learning Library for Basketball Player Re-identification for the DeepSportRadar ReID Challenge",  # FIXME
+    version="1.1.0",
+    description="Deep Learning Library for Basketball Player Re-identification for the DeepSportradar ReID Challenge",  # FIXME
     author="Davide Zambrano & Vladimir Somers",
     author_email="d.zambrano@sportradar.com, v.somers@sportradar.com",
     url="https://github.com/DeepSportRadar/player-reidentification-challenge",
