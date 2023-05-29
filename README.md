@@ -17,7 +17,10 @@ The challenge-set will be used for the official challenge ranking.
 
 ## NEW CHALLENGE SET!
 
-This year we will release an updated challenge set with more images! This will help to separate the ranking results for the different models.
+In response to the amazing performance achieved by participants last year, we have enriched the challenge set with a wider range of images, intensifying the difficulty level. This enhancement aims to create a more significant distinction in performance between participants, resulting in a more meaningful ranking that highlights the top performers.
+
+The new challenge set will be released in the next two weeks! Stay tuned!!
+
 
 If you use any DeepSportradar dataset in your research or wish to refer to the baseline results and discussion published in [our paper](https://arxiv.org/abs/2208.08190), please use the following BibTeX entry:
 
