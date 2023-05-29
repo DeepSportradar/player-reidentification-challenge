@@ -1,21 +1,26 @@
 [![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/JvMQgMkpkm)
 [![Compete on EvalAI](https://badgen.net/badge/compete%20on/EvalAI/blue)](https://eval.ai/web/challenges/challenge-page/1689/overview)
-[![Win $1000](https://badgen.net/badge/win/%241%2C000.00/yellow)](http://mmsports.multimedia-computing.de/mmsports2022/challenge.html)
+[![Win $1000](https://badgen.net/badge/win/%241%2C000.00/yellow)](http://mmsports.multimedia-computing.de/mmsports2023/challenge.html)
 
-# The DeepSportRadar Player Re-Identification Challenge
-
-## ** The DeepSportRadar Challenges will come back next year (2023) with some improvements, stay tuned on our [Discord channel](https://discord.gg/JvMQgMkpkm)! **
+# The DeepSportradar Player Re-Identification Challenge (2023)
 
 
-Welcome to the DeepSportRadar Player Re-Identification Challenge, which is one of the [ACM MMSports 2022 Workshop](http://mmsports.multimedia-computing.de/mmsports2022/index.html) challenges. 
+Welcome to the second edition of the DeepSportradar Player Re-Identification Challenge, which is one of the [ACM MMSports 2023 Workshop](http://mmsports.multimedia-computing.de/mmsports2023/index.html) challenges. 
 An opportunity to publish, as well as a $1000 prize by competing on [EvalAI](https://eval.ai/web/challenges/challenge-page/1685/overview). 
-See [this page](http://mmsports.multimedia-computing.de/mmsports2022/challenge.html) for more details.
+See [this page](http://mmsports.multimedia-computing.de/mmsports2023/challenge.html) for more details.
 In this challenge, participants will have to re-identify basketball players across multiple video frames captured from the same camera viewpoint at various time instants.
 For that purpose, we provide our Synergy Re-Identification dataset with image crops of players, referees and coaches.
 The dataset is split into a training, test and challenge set. 
 Test and challenge sets are both split into queries and galleries, similar to traditional ReID datasets.
 The testing-set should be used to evaluate your model, both on the public EvalAI leaderboard that provides the temporary ranking, and when communicating about your method.
 The challenge-set will be used for the official challenge ranking.
+
+## NEW CHALLENGE SET!
+
+In response to the amazing performance achieved by participants last year, we have enriched the challenge set with a wider range of images, intensifying the difficulty level. This enhancement aims to create a more significant distinction in performance between participants, resulting in a more meaningful ranking that highlights the top performers.
+
+The new challenge set will be released in the next two weeks! Stay tuned!!
+
 
 If you use any DeepSportradar dataset in your research or wish to refer to the baseline results and discussion published in [our paper](https://arxiv.org/abs/2208.08190), please use the following BibTeX entry:
 
@@ -31,8 +36,7 @@ If you use any DeepSportradar dataset in your research or wish to refer to the b
     url = {https://doi.org/10.1145%2F3552437.3555699}
     }
     
-Maintainer: Vladimir Somers (v.somers@sportradar.com) from Synergy Sports, a division of Sportradar.
-Author of this repository: Davide Zambrano from Synergy Sports (d.zambrano@sportradar.com).
+Maintainers: Vladimir Somers (v.somers@sportradar.com) Davide Zambrano (d.zambrano@sportradar.com) from Sportradar.
 
 **NOTE this code is based on Open-reid repo: https://github.com/Cysu/open-reid.git"**
 
@@ -43,7 +47,7 @@ state-of-the-art results._
 
 We want to thank the authors for providing this tool. This version applies some changes to the original code to specifically adapt it to the DeepSportradar Challenge on Person Re-Identification. 
 
-This challenge is a fork of the [player re-identification challenge](https://github.com/VIPriors/vipriors-challenges-toolkit/tree/master/re-identification) proposed in the [2nd VIPriors workshop challenges](https://vipriors.github.io/challenges/)
+This challenge started as a fork of the [player re-identification challenge](https://github.com/VIPriors/vipriors-challenges-toolkit/tree/master/re-identification) proposed in the [2nd VIPriors workshop challenges](https://vipriors.github.io/challenges/).
 
 &nbsp;
 <p align="center"><img src="assets/banner.png" width="740"></p>
@@ -55,7 +59,7 @@ This challenge is a fork of the [player re-identification challenge](https://git
 Install [PyTorch](http://pytorch.org/). 
 
 ```shell
-git clone https://github.com/DeepSportRadar/player-reidentification-challenge.git
+git clone https://github.com/DeepSportradar/player-reidentification-challenge.git
 cd player-reidentification-challenge
 pip install -e .
 ```

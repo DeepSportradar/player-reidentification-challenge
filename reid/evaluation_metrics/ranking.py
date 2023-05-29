@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+
 from collections import defaultdict
 
 import numpy as np
@@ -8,18 +9,24 @@ from ..utils import to_numpy
 
 
 def _unique_sample(ids_dict, num):
-    mask = np.zeros(num, dtype=np.bool)
+    mask = np.zeros(num, dtype=bool)
     for _, indices in ids_dict.items():
         i = np.random.choice(indices)
         mask[i] = True
     return mask
 
 
-def cmc(distmat, query_ids=None, gallery_ids=None,
-        query_cams=None, gallery_cams=None, topk=100,
-        separate_camera_set=False,
-        single_gallery_shot=False,
-        first_match_break=False):
+def cmc(
+    distmat,
+    query_ids=None,
+    gallery_ids=None,
+    query_cams=None,
+    gallery_cams=None,
+    topk=100,
+    separate_camera_set=False,
+    single_gallery_shot=False,
+    first_match_break=False,
+):
     distmat = to_numpy(distmat)
     m, n = distmat.shape
     # Fill up default values
@@ -38,18 +45,20 @@ def cmc(distmat, query_ids=None, gallery_ids=None,
     gallery_cams = np.asarray(gallery_cams)
     # Sort and find correct matches
     indices = np.argsort(distmat, axis=1)
-    matches = (gallery_ids[indices] == query_ids[:, np.newaxis])
+    matches = gallery_ids[indices] == query_ids[:, np.newaxis]
     # Compute CMC for each query
     ret = np.zeros(topk)
     num_valid_queries = 0
     for i in range(m):
         # Filter out the same id and same camera
-        valid = ((gallery_ids[indices[i]] != query_ids[i]) |
-                 (gallery_cams[indices[i]] != query_cams[i]))
+        valid = (gallery_ids[indices[i]] != query_ids[i]) | (
+            gallery_cams[indices[i]] != query_cams[i]
+        )
         if separate_camera_set:
             # Filter out samples from same camera
-            valid &= (gallery_cams[indices[i]] != query_cams[i])
-        if not np.any(matches[i, valid]): continue
+            valid &= gallery_cams[indices[i]] != query_cams[i]
+        if not np.any(matches[i, valid]):
+            continue
         if single_gallery_shot:
             repeat = 10
             gids = gallery_ids[indices[i][valid]]
@@ -62,13 +71,14 @@ def cmc(distmat, query_ids=None, gallery_ids=None,
         for _ in range(repeat):
             if single_gallery_shot:
                 # Randomly choose one instance for each id
-                sampled = (valid & _unique_sample(ids_dict, len(valid)))
+                sampled = valid & _unique_sample(ids_dict, len(valid))
                 index = np.nonzero(matches[i, sampled])[0]
             else:
                 index = np.nonzero(matches[i, valid])[0]
-            delta = 1. / (len(index) * repeat)
+            delta = 1.0 / (len(index) * repeat)
             for j, k in enumerate(index):
-                if k - j >= topk: break
+                if k - j >= topk:
+                    break
                 if first_match_break:
                     ret[k - j] += 1
                     break
@@ -79,8 +89,13 @@ def cmc(distmat, query_ids=None, gallery_ids=None,
     return ret.cumsum() / num_valid_queries
 
 
-def mean_ap(distmat, query_ids=None, gallery_ids=None,
-            query_cams=None, gallery_cams=None):
+def mean_ap(
+    distmat,
+    query_ids=None,
+    gallery_ids=None,
+    query_cams=None,
+    gallery_cams=None,
+):
     distmat = to_numpy(distmat)
     m, n = distmat.shape
     # Fill up default values
@@ -99,16 +114,18 @@ def mean_ap(distmat, query_ids=None, gallery_ids=None,
     gallery_cams = np.asarray(gallery_cams)
     # Sort and find correct matches
     indices = np.argsort(distmat, axis=1)
-    matches = (gallery_ids[indices] == query_ids[:, np.newaxis])
+    matches = gallery_ids[indices] == query_ids[:, np.newaxis]
     # Compute AP for each query
     aps = []
     for i in range(m):
         # Filter out the same id and same camera
-        valid = ((gallery_ids[indices[i]] != query_ids[i]) |
-                 (gallery_cams[indices[i]] != query_cams[i]))
+        valid = (gallery_ids[indices[i]] != query_ids[i]) | (
+            gallery_cams[indices[i]] != query_cams[i]
+        )
         y_true = matches[i, valid]
         y_score = -distmat[i][indices[i]][valid]
-        if not np.any(y_true): continue
+        if not np.any(y_true):
+            continue
         aps.append(average_precision_score(y_true, y_score))
     if len(aps) == 0:
         raise RuntimeError("No valid query")

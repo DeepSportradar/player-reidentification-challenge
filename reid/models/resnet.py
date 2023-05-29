@@ -1,13 +1,18 @@
 from __future__ import absolute_import
 
+import torchvision
 from torch import nn
 from torch.nn import functional as F
 from torch.nn import init
-import torchvision
 
-
-__all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
-           'resnet152']
+__all__ = [
+    "ResNet",
+    "resnet18",
+    "resnet34",
+    "resnet50",
+    "resnet101",
+    "resnet152",
+]
 
 
 class ResNet(nn.Module):
@@ -18,9 +23,24 @@ class ResNet(nn.Module):
         101: torchvision.models.resnet101,
         152: torchvision.models.resnet152,
     }
+    __weigths_factory = {
+        18: torchvision.models.ResNet18_Weights.DEFAULT,
+        34: torchvision.models.ResNet34_Weights.DEFAULT,
+        50: torchvision.models.ResNet50_Weights.DEFAULT,
+        101: torchvision.models.ResNet101_Weights.DEFAULT,
+        152: torchvision.models.ResNet152_Weights.DEFAULT,
+    }
 
-    def __init__(self, depth, pretrained=False, cut_at_pooling=False,
-                 num_features=0, norm=False, dropout=0, num_classes=0):
+    def __init__(
+        self,
+        depth,
+        pretrained=True,
+        cut_at_pooling=False,
+        num_features=0,
+        norm=False,
+        dropout=0,
+        num_classes=0,
+    ):
         super(ResNet, self).__init__()
 
         self.depth = depth
@@ -30,7 +50,8 @@ class ResNet(nn.Module):
         # Construct base (pretrained) resnet
         if depth not in ResNet.__factory:
             raise KeyError("Unsupported depth:", depth)
-        self.base = ResNet.__factory[depth](pretrained=pretrained)
+        weights = ResNet.__weigths_factory[depth] if pretrained else None
+        self.base = ResNet.__factory[depth](weights=weights)
 
         if not self.cut_at_pooling:
             self.num_features = num_features
@@ -45,7 +66,7 @@ class ResNet(nn.Module):
             if self.has_embedding:
                 self.feat = nn.Linear(out_planes, self.num_features)
                 self.feat_bn = nn.BatchNorm1d(self.num_features)
-                init.kaiming_normal_(self.feat.weight, mode='fan_out')
+                init.kaiming_normal_(self.feat.weight, mode="fan_out")
                 init.constant_(self.feat.bias, 0)
                 init.constant_(self.feat_bn.weight, 1)
                 init.constant_(self.feat_bn.bias, 0)
@@ -55,7 +76,9 @@ class ResNet(nn.Module):
             if self.dropout > 0:
                 self.drop = nn.Dropout(self.dropout)
             if self.num_classes > 0:
-                self.classifier = nn.Linear(self.num_features, self.num_classes)
+                self.classifier = nn.Linear(
+                    self.num_features, self.num_classes
+                )
                 init.normal_(self.classifier.weight, std=0.001)
                 init.constant_(self.classifier.bias, 0)
 
@@ -64,7 +87,7 @@ class ResNet(nn.Module):
 
     def forward(self, x):
         for name, module in self.base._modules.items():
-            if name == 'avgpool':
+            if name == "avgpool":
                 break
             x = module(x)
 
@@ -90,7 +113,7 @@ class ResNet(nn.Module):
     def reset_params(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight, mode='fan_out')
+                init.kaiming_normal_(m.weight, mode="fan_out")
                 if m.bias is not None:
                     init.constant_(m.bias, 0)
             elif isinstance(m, nn.BatchNorm2d):
