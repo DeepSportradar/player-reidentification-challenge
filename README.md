@@ -1,12 +1,12 @@
 [![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/JvMQgMkpkm)
-[![Compete on EvalAI](https://badgen.net/badge/compete%20on/EvalAI/blue)](https://eval.ai/web/challenges/challenge-page/1689/overview)
+[![Compete on EvalAI](https://badgen.net/badge/compete%20on/EvalAI/blue)](https://eval.ai/web/challenges/challenge-page/2076/overview)
 [![Win $1000](https://badgen.net/badge/win/%241%2C000.00/yellow)](http://mmsports.multimedia-computing.de/mmsports2023/challenge.html)
 
 # The DeepSportradar Player Re-Identification Challenge (2023)
 
 
 Welcome to the second edition of the DeepSportradar Player Re-Identification Challenge, which is one of the [ACM MMSports 2023 Workshop](http://mmsports.multimedia-computing.de/mmsports2023/index.html) challenges. 
-An opportunity to publish, as well as a $1000 prize by competing on [EvalAI](https://eval.ai/web/challenges/challenge-page/1685/overview). 
+An opportunity to publish, as well as a $1000 prize by competing on [EvalAI](https://eval.ai/web/challenges/challenge-page/2076/overview). 
 See [this page](http://mmsports.multimedia-computing.de/mmsports2023/challenge.html) for more details.
 In this challenge, participants will have to re-identify basketball players across multiple video frames captured from the same camera viewpoint at various time instants.
 For that purpose, we provide our Synergy Re-Identification dataset with image crops of players, referees and coaches.
@@ -106,7 +106,7 @@ The test-set is divided in query and gallery to match the challenge-set format. 
 The identities of the gallery are NOT provided; gallery ids are just random.
 
 ## Submission on EvalAI
-Submit your result through the [challenge page on the EvalAI platform](https://eval.ai/web/challenges/challenge-page/1689/overview).
+Submit your result through the [challenge page on the EvalAI platform](https://eval.ai/web/challenges/challenge-page/2076/overview).
 You need to submit a _.csv_ file as the pairwise distance matrix of size (m+1) x (n+1), where m is the number of query images and n is the number of gallery images. 
 The first row and the first column are the query and gallery ids respectively.
 Query ids have to be ordered. 
