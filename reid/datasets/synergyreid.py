@@ -11,7 +11,6 @@ from ..utils.serialization import read_json, write_json
 
 
 class SynergyReID(Dataset):
-    # md5 = "05715857791e2e88b2f11e4037fbec7d"
     md5 = "98fe8b85c154923742b7c14418f2b2d7"
 
     def __init__(self, root, split_id=0, num_val=100, download=True):
@@ -42,8 +41,7 @@ class SynergyReID(Dataset):
         mkdir_if_missing(raw_dir)
 
         # Open the raw zip file
-        # fpath = osp.join(raw_dir, 'synergyreid_data.zip')
-        fpath = osp.join(raw_dir, "data_reid.zip")
+        fpath = osp.join(raw_dir, "synergyreid_data.zip")
 
         if (
             osp.isfile(fpath)
@@ -91,7 +89,6 @@ class SynergyReID(Dataset):
         assert query_test_pids <= gallery_test_pids
         assert traintest_pids.isdisjoint(query_test_pids)
 
-        # identities_challenge = [[[] for _ in range(2)] for _ in range(9172)]
         identities_challenge = [[[] for _ in range(2)] for _ in range(10128)]
 
         def register_challenge(subdir, n=0):
