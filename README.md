@@ -1,12 +1,12 @@
 [![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/JvMQgMkpkm)
-[![Compete on EvalAI](https://badgen.net/badge/compete%20on/EvalAI/blue)](https://eval.ai/web/challenges/challenge-page/1689/overview)
+[![Compete on EvalAI](https://badgen.net/badge/compete%20on/EvalAI/blue)](https://eval.ai/web/challenges/challenge-page/2076/overview)
 [![Win $1000](https://badgen.net/badge/win/%241%2C000.00/yellow)](http://mmsports.multimedia-computing.de/mmsports2023/challenge.html)
 
 # The DeepSportradar Player Re-Identification Challenge (2023)
 
 
 Welcome to the second edition of the DeepSportradar Player Re-Identification Challenge, which is one of the [ACM MMSports 2023 Workshop](http://mmsports.multimedia-computing.de/mmsports2023/index.html) challenges. 
-An opportunity to publish, as well as a $1000 prize by competing on [EvalAI](https://eval.ai/web/challenges/challenge-page/1685/overview). 
+An opportunity to publish, as well as a $1000 prize by competing on [EvalAI](https://eval.ai/web/challenges/challenge-page/2076/overview). 
 See [this page](http://mmsports.multimedia-computing.de/mmsports2023/challenge.html) for more details.
 In this challenge, participants will have to re-identify basketball players across multiple video frames captured from the same camera viewpoint at various time instants.
 For that purpose, we provide our Synergy Re-Identification dataset with image crops of players, referees and coaches.
@@ -17,7 +17,10 @@ The challenge-set will be used for the official challenge ranking.
 
 ## NEW CHALLENGE SET!
 
-This year we will release an updated challenge set with more images! This will help to separate the ranking results for the different models.
+In response to the amazing performance achieved by participants last year, we have enriched the challenge set with a wider range of images, intensifying the difficulty level. This enhancement aims to create a more significant distinction in performance between participants, resulting in a more meaningful ranking that highlights the top performers.
+
+The new challenge set will be released in the next two weeks! Stay tuned!!
+
 
 If you use any DeepSportradar dataset in your research or wish to refer to the baseline results and discussion published in [our paper](https://arxiv.org/abs/2208.08190), please use the following BibTeX entry:
 
@@ -103,7 +106,7 @@ The test-set is divided in query and gallery to match the challenge-set format. 
 The identities of the gallery are NOT provided; gallery ids are just random.
 
 ## Submission on EvalAI
-Submit your result through the [challenge page on the EvalAI platform](https://eval.ai/web/challenges/challenge-page/1689/overview).
+Submit your result through the [challenge page on the EvalAI platform](https://eval.ai/web/challenges/challenge-page/2076/overview).
 You need to submit a _.csv_ file as the pairwise distance matrix of size (m+1) x (n+1), where m is the number of query images and n is the number of gallery images. 
 The first row and the first column are the query and gallery ids respectively.
 Query ids have to be ordered. 
