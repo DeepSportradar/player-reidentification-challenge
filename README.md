@@ -19,7 +19,8 @@ The challenge-set will be used for the official challenge ranking.
 
 In response to the amazing performance achieved by participants last year, we have enriched the challenge set with a wider range of images, intensifying the difficulty level. This enhancement aims to create a more significant distinction in performance between participants, resulting in a more meaningful ranking that highlights the top performers.
 
-The new challenge set will be released in the next two weeks! Stay tuned!!
+Check the [Data](#data) section for more information on the new challenge set. Please note that the training and test sets are left unchanged.
+
 
 
 If you use any DeepSportradar dataset in your research or wish to refer to the baseline results and discussion published in [our paper](https://arxiv.org/abs/2208.08190), please use the following BibTeX entry:
@@ -71,6 +72,11 @@ Run the following command to train a baseline model:
 python baseline/synergyreid_baseline.py -b 64 -j 2 -a resnet50 --logs-dir logs/synergy-reid/
 ```
 
+
+## Baseline
+The current repository should return a baseline reaching **~72.7 mAP on the test set** and **~61.1 mAP on the NEW challenge set**!
+For better performance you could use the [last year winner repository as baseline](https://github.com/DeepSportradar/2022-winners-player-reidentification-challenge). That CLIP ViT-L/14 reached **98.44 % mAP on the 2022 Challenge set**.
+
 ## Data
 
 Person re-identification data are provided by [Synergy Sports](ttps://synergysports.com). 
@@ -94,8 +100,8 @@ SynergyReID dataset loaded
   gallery test |    50 |      910
   traintest    |   486 |     9529
   ---------------------------
-  query challenge  |   468 |      468
-  gallery challenge |  8703 |     8703
+  query challenge  |   618 |      618
+  gallery challenge |  9505 |     9505
 ```
 
 Train and test identities can be merged (to improve performance) using the flag ```--combine-traintest```.

@@ -23,15 +23,15 @@ from torch.backends import cudnn
 from torch.utils.data import DataLoader
 
 
-def get_device(device):
-    "return torch device"
-    if device == "cuda":
-        return torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    if device == "mps":
-        return torch.device("mps")
-    if device == "cpu":
-        return torch.device("cpu")
-    raise NotImplementedError
+def get_device():
+    """returns the device"""
+    return (
+        "cuda"
+        if torch.cuda.is_available()
+        else "mps"
+        if torch.backends.mps.is_available()
+        else "cpu"
+    )
 
 
 def get_data(
@@ -145,7 +145,8 @@ def main(args):
         args.combine_traintest,
     )
     # Device
-    device = get_device(args.device)
+    device = get_device()
+    print("using device %s" % device)
 
     # Create model
     model = models.create(
@@ -362,11 +363,5 @@ if __name__ == "__main__":
         type=str,
         metavar="PATH",
         default=osp.join(working_dir, "logs"),
-    )
-    parser.add_argument(
-        "--device",
-        type=str,
-        choices=["cpu", "cuda", "mps"],
-        default="cuda",
     )
     main(parser.parse_args())
