@@ -74,7 +74,7 @@ python baseline/synergyreid_baseline.py -b 64 -j 2 -a resnet50 --logs-dir logs/s
 
 
 ## Baseline
-The current repository should return a baseline reaching **~72.7 % on the test set**. 
+The current repository should return a baseline reaching **~72.7 mAP on the test set** and **~61.1 mAP on the NEW challenge set**!
 For better performance you could use the [last year winner repository as baseline](https://github.com/DeepSportradar/2022-winners-player-reidentification-challenge). That CLIP ViT-L/14 reached **98.44 % mAP on the 2022 Challenge set**.
 
 ## Data

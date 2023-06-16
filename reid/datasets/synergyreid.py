@@ -42,7 +42,6 @@ class SynergyReID(Dataset):
 
         # Open the raw zip file
         fpath = osp.join(raw_dir, "synergyreid_data.zip")
-
         if (
             osp.isfile(fpath)
             and hashlib.md5(open(fpath, "rb").read()).hexdigest() == self.md5
