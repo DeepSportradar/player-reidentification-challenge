@@ -11,7 +11,7 @@ from ..utils.serialization import read_json, write_json
 
 
 class SynergyReID(Dataset):
-    md5 = "5d5ed61964dfd10b5da46de09d2db628"
+    md5 = "2a1cdbd10d2b8f0da6575e3581343e31"
 
     def __init__(self, root, split_id=0, num_val=100, download=True):
         super(SynergyReID, self).__init__(root, split_id=split_id)
